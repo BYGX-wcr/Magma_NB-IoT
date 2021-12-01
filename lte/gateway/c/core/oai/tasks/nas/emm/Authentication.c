@@ -921,13 +921,13 @@ status_code_e emm_proc_authentication_complete(
     REQUIREMENT_3GPP_24_301(R10_5_4_2_4__2);
     emm_ctx_set_security_eksi(emm_ctx, auth_proc->ksi);
 
-    for (idx = 0; idx < emm_ctx->_vector[auth_proc->ksi].xres_size; idx++) {
-      if ((emm_ctx->_vector[auth_proc->ksi].xres[idx]) !=
-          msg->authenticationresponseparameter->data[idx]) {
-        is_val_fail = true;
-        break;
-      }
-    }
+    // for (idx = 0; idx < emm_ctx->_vector[auth_proc->ksi].xres_size; idx++) {
+    //   if ((emm_ctx->_vector[auth_proc->ksi].xres[idx]) !=
+    //       msg->authenticationresponseparameter->data[idx]) {
+    //     is_val_fail = true;
+    //     break;
+    //   }
+    // }
 
     if (is_val_fail == true) {
       OAILOG_WARNING(

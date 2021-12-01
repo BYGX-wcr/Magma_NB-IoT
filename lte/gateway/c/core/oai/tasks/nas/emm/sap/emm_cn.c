@@ -287,7 +287,7 @@ static int emm_cn_ula_success(emm_cn_ula_success_t* msg_pP) {
     handle_apn_mismatch(ue_mm_context, esm_cause);
     return RETURNerror;
   }
-
+  OAILOG_INFO(LOG_MME_APP, "------------------------------------------\n");
   // search for an already set PDN context
   for (pdn_cid = 0; pdn_cid < MAX_APN_PER_UE; pdn_cid++) {
     if ((ue_mm_context->pdn_contexts[pdn_cid]) &&
