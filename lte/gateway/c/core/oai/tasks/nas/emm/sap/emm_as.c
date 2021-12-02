@@ -451,14 +451,14 @@ static int emm_as_recv(
 
     case ATTACH_COMPLETE:
       REQUIREMENT_3GPP_24_301(R10_4_4_4_3__1);
-      if ((0 == decode_status->security_context_available) ||
-          (0 == decode_status->integrity_protected_message) ||
-          // Requirement MME24.301R10_4.4.4.3_2
-          ((1 == decode_status->security_context_available) &&
-           (0 == decode_status->mac_matched))) {
-        *emm_cause = EMM_CAUSE_PROTOCOL_ERROR;
-        OAILOG_FUNC_RETURN(LOG_NAS_EMM, decoder_rc);
-      }
+      // if ((0 == decode_status->security_context_available) ||
+      //     (0 == decode_status->integrity_protected_message) ||
+      //     // Requirement MME24.301R10_4.4.4.3_2
+      //     ((1 == decode_status->security_context_available) &&
+      //      (0 == decode_status->mac_matched))) {
+      //   *emm_cause = EMM_CAUSE_PROTOCOL_ERROR;
+      //   OAILOG_FUNC_RETURN(LOG_NAS_EMM, decoder_rc);
+      // }
 
       rc = emm_recv_attach_complete(
           ue_id, &emm_msg->attach_complete, emm_cause, decode_status);

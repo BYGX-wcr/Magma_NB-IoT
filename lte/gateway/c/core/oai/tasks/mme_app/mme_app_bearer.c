@@ -559,27 +559,27 @@ void mme_app_handle_conn_est_cnf(
    * corresponding NAS procedure such as ATTACH or SERVICE REQUEST. Send UE
    * context release command to eNB
    */
-  if ((ue_context_p->initial_context_setup_rsp_timer.id = mme_app_start_timer(
-           ue_context_p->initial_context_setup_rsp_timer.msec,
-           TIMER_REPEAT_ONCE,
-           mme_app_handle_initial_context_setup_rsp_timer_expiry,
-           ue_context_p->mme_ue_s1ap_id)) == -1) {
-    OAILOG_ERROR_UE(
-        LOG_MME_APP, emm_context_p->_imsi64,
-        "Failed to start initial context setup response timer for UE "
-        "id " MME_UE_S1AP_ID_FMT " \n",
-        ue_context_p->mme_ue_s1ap_id);
-    ue_context_p->initial_context_setup_rsp_timer.id =
-        MME_APP_TIMER_INACTIVE_ID;
-  } else {
-    ue_context_p->time_ics_rsp_timer_started = time(NULL);
-    OAILOG_INFO_UE(
-        LOG_MME_APP, emm_context_p->_imsi64,
-        "MME APP : Sent Initial context Setup Request and Started guard timer "
-        "for UE id " MME_UE_S1AP_ID_FMT " timer_id :%lx \n",
-        ue_context_p->mme_ue_s1ap_id,
-        (long) ue_context_p->initial_context_setup_rsp_timer.id);
-  }
+  // if ((ue_context_p->initial_context_setup_rsp_timer.id = mme_app_start_timer(
+  //          ue_context_p->initial_context_setup_rsp_timer.msec,
+  //          TIMER_REPEAT_ONCE,
+  //          mme_app_handle_initial_context_setup_rsp_timer_expiry,
+  //          ue_context_p->mme_ue_s1ap_id)) == -1) {
+  //   OAILOG_ERROR_UE(
+  //       LOG_MME_APP, emm_context_p->_imsi64,
+  //       "Failed to start initial context setup response timer for UE "
+  //       "id " MME_UE_S1AP_ID_FMT " \n",
+  //       ue_context_p->mme_ue_s1ap_id);
+  //   ue_context_p->initial_context_setup_rsp_timer.id =
+  //       MME_APP_TIMER_INACTIVE_ID;
+  // } else {
+  //   ue_context_p->time_ics_rsp_timer_started = time(NULL);
+  //   OAILOG_INFO_UE(
+  //       LOG_MME_APP, emm_context_p->_imsi64,
+  //       "MME APP : Sent Initial context Setup Request and Started guard timer "
+  //       "for UE id " MME_UE_S1AP_ID_FMT " timer_id :%lx \n",
+  //       ue_context_p->mme_ue_s1ap_id,
+  //       (long) ue_context_p->initial_context_setup_rsp_timer.id);
+  // }
   OAILOG_FUNC_OUT(LOG_MME_APP);
 }
 
