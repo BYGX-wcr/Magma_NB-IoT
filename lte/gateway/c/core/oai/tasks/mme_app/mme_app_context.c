@@ -620,7 +620,8 @@ status_code_e mme_insert_ue_context(
         "This ue context %p already exists enb_ue_s1ap_id " ENB_UE_S1AP_ID_FMT
         "\n",
         ue_context_p, ue_context_p->enb_ue_s1ap_id);
-    OAILOG_FUNC_RETURN(LOG_MME_APP, RETURNerror);
+    hashtable_uint64_ts_remove(mme_ue_context_p->enb_ue_s1ap_id_ue_context_htbl, (const hash_key_t) ue_context_p->enb_s1ap_id_key);
+    // OAILOG_FUNC_RETURN(LOG_MME_APP, RETURNerror);
   }
   h_rc = hashtable_uint64_ts_insert(
       mme_ue_context_p->enb_ue_s1ap_id_ue_context_htbl,
