@@ -58,10 +58,16 @@
   (1 << 3)
 #define ACTIVATE_DEFAULT_EPS_BEARER_CONTEXT_REQUEST_PACKET_FLOW_IDENTIFIER_PRESENT \
   (1 << 4)
-#define ACTIVATE_DEFAULT_EPS_BEARER_CONTEXT_REQUEST_APNAMBR_PRESENT (1 << 5)
-#define ACTIVATE_DEFAULT_EPS_BEARER_CONTEXT_REQUEST_ESM_CAUSE_PRESENT (1 << 6)
+#define ACTIVATE_DEFAULT_EPS_BEARER_CONTEXT_REQUEST_APNAMBR_PRESENT \
+  (1 << 5)
+#define ACTIVATE_DEFAULT_EPS_BEARER_CONTEXT_REQUEST_ESM_CAUSE_PRESENT \
+  (1 << 6)
 #define ACTIVATE_DEFAULT_EPS_BEARER_CONTEXT_REQUEST_PROTOCOL_CONFIGURATION_OPTIONS_PRESENT \
   (1 << 7)
+#define ACTIVATE_DEFAULT_EPS_BEARER_CONTEXT_REQUEST_CTRL_PLANE_ONLY_IND_PRESENT \
+  (1 << 8)
+
+typedef uint8_t control_plane_only_indication_t;
 
 typedef enum activate_default_eps_bearer_context_request_iei_tag {
   ACTIVATE_DEFAULT_EPS_BEARER_CONTEXT_REQUEST_TRANSACTION_IDENTIFIER_IEI =
@@ -108,6 +114,7 @@ typedef struct activate_default_eps_bearer_context_request_msg_tag {
   ApnAggregateMaximumBitRate apnambr;
   esm_cause_t esmcause;
   protocol_configuration_options_t protocolconfigurationoptions;
+  control_plane_only_indication_t ctrl_plane_only_ind; // new field added for NB IoT by WCR
 } activate_default_eps_bearer_context_request_msg;
 
 int decode_activate_default_eps_bearer_context_request(

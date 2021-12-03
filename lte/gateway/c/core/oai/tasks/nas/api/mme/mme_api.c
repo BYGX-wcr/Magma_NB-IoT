@@ -136,6 +136,9 @@ status_code_e mme_api_get_emm_config(
         EPS_NETWORK_FEATURE_SUPPORT_EXTENDED_SERVICE_REQUEST_SUPPORTED;
   }
 
+  // set the field for NB IoT by WCR
+  config->eps_network_feature_support[0] |= EPS_NETWORK_FEATURE_SUPPORT_CP_CIOT_SUPPORTED;
+
   if (mme_config_p->unauthenticated_imsi_supported != 0) {
     config->features |= MME_API_UNAUTHENTICATED_IMSI;
   }

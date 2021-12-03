@@ -497,6 +497,7 @@ status_code_e emm_send_attach_accept(
   if (msg->eps_network_feature_support) {
     size += EPS_NETWORK_FEATURE_SUPPORT_MAXIMUM_LENGTH;
     emm_msg->presencemask |= ATTACH_ACCEPT_EPS_NETWORK_FEATURE_SUPPORT_PRESENT;
+    *msg->eps_network_feature_support |= EPS_NETWORK_FEATURE_SUPPORT_CP_CIOT_SUPPORTED; // set the field for NB IoT by WCR
     emm_msg->epsnetworkfeaturesupport = *msg->eps_network_feature_support;
   }
   OAILOG_FUNC_RETURN(LOG_NAS_EMM, size);

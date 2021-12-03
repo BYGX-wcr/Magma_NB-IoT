@@ -349,6 +349,14 @@ int encode_activate_default_eps_bearer_context_request(
       encoded += encode_result;
   }
 
+  if ((activate_default_eps_bearer_context_request->presencemask &
+       ACTIVATE_DEFAULT_EPS_BEARER_CONTEXT_REQUEST_CTRL_PLANE_ONLY_IND_PRESENT) ==
+      ACTIVATE_DEFAULT_EPS_BEARER_CONTEXT_REQUEST_CTRL_PLANE_ONLY_IND_PRESENT) {
+    // new field added for NB IoT by WCR
+    *(buffer + encoded) = activate_default_eps_bearer_context_request->ctrl_plane_only_ind;
+    encoded++;
+  }
+
   OAILOG_DEBUG(
       LOG_NAS_ESM,
       "ESM  ENCODED activate_default_eps_bearer_context_request\n");
