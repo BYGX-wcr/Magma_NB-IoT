@@ -336,7 +336,7 @@ status_code_e esm_send_activate_default_eps_bearer_context_request(
   // new field added for NB IoT by WCR
   msg->presencemask |=
       ACTIVATE_DEFAULT_EPS_BEARER_CONTEXT_REQUEST_CTRL_PLANE_ONLY_IND_PRESENT;
-  msg->ctrl_plane_only_ind = 0x91
+  msg->ctrl_plane_only_ind = 0x91;
 
   //#pragma message  "TEST LG FORCE APN-AMBR"
   OAILOG_DEBUG(
