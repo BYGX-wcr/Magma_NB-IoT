@@ -108,6 +108,102 @@ int decode_ue_network_capability(
 }
 
 //------------------------------------------------------------------------------
+int decode_ue_network_capability_nb(
+    ue_network_capability_t* uenetworkcapability, uint8_t iei, uint8_t* buffer,
+    uint32_t len) {
+  int decoded   = 0;
+  uint8_t ielen = 0;
+
+  if (iei > 0) {
+    CHECK_IEI_DECODER(iei, *buffer);
+    decoded++;
+  }
+
+  DECODE_U8(buffer + decoded, ielen, decoded);
+  memset(uenetworkcapability, 0, sizeof(ue_network_capability_t));
+  OAILOG_TRACE(LOG_NAS_EMM, "decode_ue_network_capability len = %d\n", ielen);
+  CHECK_LENGTH_DECODER(len - decoded, ielen);
+  uenetworkcapability->eea = *(buffer + decoded);
+  decoded++;
+  uenetworkcapability->eia = *(buffer + decoded);
+  decoded++;
+  uenetworkcapability->length = ielen;
+  /*
+   * Parts below not mandatory and may not be present
+   */
+  if (ielen > 2) {
+    uenetworkcapability->uea = *(buffer + decoded);
+    decoded++;
+
+    if (ielen > 3) {
+      uenetworkcapability->ucs2 = (*(buffer + decoded) >> 7) & 0x1;
+      uenetworkcapability->uia  = *(buffer + decoded) & 0x7f;
+      decoded++;
+      uenetworkcapability->umts_present = 1;
+      OAILOG_TRACE(LOG_NAS_EMM, "uenetworkcapability decoded UMTS\n");
+
+      if (ielen > 4) {
+        uenetworkcapability->prosedd = (*(buffer + decoded) >> 7) & 0x1;
+        uenetworkcapability->prose   = (*(buffer + decoded) >> 6) & 0x1;
+        uenetworkcapability->h245ash = (*(buffer + decoded) >> 5) & 0x1;
+        uenetworkcapability->csfb    = (*(buffer + decoded) >> 4) & 0x1;
+        uenetworkcapability->lpp     = (*(buffer + decoded) >> 3) & 0x1;
+        uenetworkcapability->lcs     = (*(buffer + decoded) >> 2) & 0x1;
+        uenetworkcapability->srvcc   = (*(buffer + decoded) >> 1) & 0x1;
+        uenetworkcapability->nf      = *(buffer + decoded) & 0x1;
+        decoded++;
+
+        if (ielen > 5) {
+          uenetworkcapability->epco       = (*(buffer + decoded) >> 7) & 0x1;
+          uenetworkcapability->hccpciot   = (*(buffer + decoded) >> 6) & 0x1;
+          uenetworkcapability->erwfopdn   = (*(buffer + decoded) >> 5) & 0x1;
+          uenetworkcapability->s1udata    = (*(buffer + decoded) >> 4) & 0x1;
+          uenetworkcapability->upciot     = (*(buffer + decoded) >> 3) & 0x1;
+          uenetworkcapability->cpciot     = (*(buffer + decoded) >> 2) & 0x1;
+          uenetworkcapability->proserelay = (*(buffer + decoded) >> 1) & 0x1;
+          uenetworkcapability->prosedc    = *(buffer + decoded) & 0x1;
+          decoded++;
+          uenetworkcapability->s1udata_present = true;
+          uenetworkcapability->upciot_present  = true;
+          uenetworkcapability->upciot_present  = true;
+          OAILOG_INFO(LOG_NAS_EMM,
+                "NB: Decoded result from attach request: s1udata %d upciot %d cpciot %d \n",
+                uenetworkcapability->s1udata,
+                uenetworkcapability->upciot,
+                uenetworkcapability->cpciot);
+
+          if (ielen > 6) {
+            uenetworkcapability->bearer      = (*(buffer + decoded) >> 7) & 0x1;
+            uenetworkcapability->sgc         = (*(buffer + decoded) >> 6) & 0x1;
+            uenetworkcapability->n1mod       = (*(buffer + decoded) >> 5) & 0x1;
+            uenetworkcapability->dcnr        = (*(buffer + decoded) >> 4) & 0x1;
+            uenetworkcapability->cpbackoff   = (*(buffer + decoded) >> 3) & 0x1;
+            uenetworkcapability->restrictec  = (*(buffer + decoded) >> 2) & 0x1;
+            uenetworkcapability->v2xpc5      = (*(buffer + decoded) >> 1) & 0x1;
+            uenetworkcapability->multipledrb = *(buffer + decoded) & 0x1;
+            decoded++;
+          }
+        } else {
+          uenetworkcapability->s1udata_present = false;
+          uenetworkcapability->upciot_present  = false;
+          uenetworkcapability->upciot_present  = false;
+        }
+      }
+    }
+  }
+
+  OAILOG_DEBUG(LOG_NAS_EMM, "    EN_DC value %d \n", uenetworkcapability->dcnr);
+  OAILOG_TRACE(LOG_NAS_EMM, "uenetworkcapability decoded=%u\n", decoded);
+
+  if ((ielen + 2) != decoded) {
+    decoded = ielen + 1 + (iei > 0 ? 1 : 0) /* Size of header for this IE */;
+    OAILOG_TRACE(LOG_NAS_EMM, "uenetworkcapability then decoded=%u\n", decoded);
+  }
+  return decoded;
+}
+
+
+//------------------------------------------------------------------------------
 int encode_ue_network_capability(
     ue_network_capability_t* uenetworkcapability, uint8_t iei, uint8_t* buffer,
     uint32_t len) {

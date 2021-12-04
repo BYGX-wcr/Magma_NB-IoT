@@ -146,6 +146,9 @@ typedef struct attach_request_msg_tag {
 int decode_attach_request(
     attach_request_msg* attachrequest, uint8_t* buffer, uint32_t len);
 
+int decode_attach_request_nb(
+    attach_request_msg* attachrequest, uint8_t* buffer, uint32_t len);
+
 int encode_attach_request(
     attach_request_msg* attachrequest, uint8_t* buffer, uint32_t len);
 

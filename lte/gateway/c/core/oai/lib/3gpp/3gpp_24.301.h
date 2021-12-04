@@ -49,6 +49,7 @@
 #define SECURITY_HEADER_TYPE_INTEGRITY_PROTECTED_NEW 0b0011
 #define SECURITY_HEADER_TYPE_INTEGRITY_PROTECTED_CYPHERED_NEW 0b0100
 #define SECURITY_HEADER_TYPE_SERVICE_REQUEST 0b1100
+#define SECURITY_HEADER_TYPE_CONTROL_PLANE_SERVICE_REQUEST 0b0101
 #define SECURITY_HEADER_TYPE_RESERVED1 0b1101
 #define SECURITY_HEADER_TYPE_RESERVED2 0b1110
 #define SECURITY_HEADER_TYPE_RESERVED3 0b1111
@@ -207,12 +208,15 @@ typedef struct ue_network_capability_s {
   /* S1-U data transfer enabled */
 #define UE_NETWORK_CAPABILITY_S1UDATA 1
   uint8_t s1udata : 1;
+  uint8_t s1udata_present;
   /* User plane CIoT EPS Optimization */
 #define UE_NETWORK_CAPABILITY_UPCIOT 1
   uint8_t upciot : 1;
+  uint8_t upciot_present;
   /* Control plane CIoT EPS Optimization */
 #define UE_NETWORK_CAPABILITY_CPCIOT 1
   uint8_t cpciot : 1;
+  uint8_t cpciot_present;
   /* ProSe UE-to-network-relay */
 #define UE_NETWORK_CAPABILITY_PROSERELAY 1
   uint8_t proserelay : 1;

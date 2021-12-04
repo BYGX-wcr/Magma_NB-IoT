@@ -140,7 +140,8 @@ int emm_msg_decode(EMM_msg* msg, uint8_t* buffer, uint32_t len) {
       break;
 
     case ATTACH_REQUEST:
-      decode_result = decode_attach_request(&msg->attach_request, buffer, len);
+      // decode_result = decode_attach_request(&msg->attach_request, buffer, len);
+      decode_result = decode_attach_request_nb(&msg->attach_request, buffer, len);
       break;
 
     case EMM_STATUS:
