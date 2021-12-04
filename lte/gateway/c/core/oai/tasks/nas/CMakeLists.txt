@@ -30,6 +30,7 @@ set(libnas_emm_msg_OBJS
     ${CMAKE_CURRENT_SOURCE_DIR}/emm/msg/AuthenticationRequest.c
     ${CMAKE_CURRENT_SOURCE_DIR}/emm/msg/AuthenticationResponse.c
     ${CMAKE_CURRENT_SOURCE_DIR}/emm/msg/CsServiceNotification.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/emm/msg/ControlPlaneServiceRequest.c # added by Yifei
     ${CMAKE_CURRENT_SOURCE_DIR}/emm/msg/DetachAccept.c
     ${CMAKE_CURRENT_SOURCE_DIR}/emm/msg/DetachRequest.c
     ${CMAKE_CURRENT_SOURCE_DIR}/emm/msg/DownlinkNasTransport.c
@@ -66,6 +67,7 @@ set(libnas_esm_msg_OBJS
     ${CMAKE_CURRENT_SOURCE_DIR}/esm/msg/BearerResourceModificationRequest.c
     ${CMAKE_CURRENT_SOURCE_DIR}/esm/msg/DeactivateEpsBearerContextAccept.c
     ${CMAKE_CURRENT_SOURCE_DIR}/esm/msg/DeactivateEpsBearerContextRequest.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/esm/msg/EsmDataTransport.c # added by Yifei
     ${CMAKE_CURRENT_SOURCE_DIR}/esm/msg/EsmInformationRequest.c
     ${CMAKE_CURRENT_SOURCE_DIR}/esm/msg/EsmInformationResponse.c
     ${CMAKE_CURRENT_SOURCE_DIR}/esm/msg/esm_msg.c

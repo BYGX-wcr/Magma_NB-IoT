@@ -73,6 +73,7 @@
 #define TRACKING_AREA_UPDATE_COMPLETE 0b01001010  /* 74 = 0x4a */
 #define TRACKING_AREA_UPDATE_REJECT 0b01001011    /* 75 = 0x4b */
 #define EXTENDED_SERVICE_REQUEST 0b01001100       /* 76 = 0x4c */
+#define CONTROL_PLANE_SERVICE_REQUEST 0b01001101  /* 77 = 0x4d added by xyf */
 #define SERVICE_REJECT 0b01001110                 /* 78 = 0x4e */
 #define GUTI_REALLOCATION_COMMAND 0b01010000      /* 80 = 0x50 */
 #define GUTI_REALLOCATION_COMPLETE 0b01010001     /* 81 = 0x51 */
@@ -123,6 +124,7 @@
 #define ESM_INFORMATION_REQUEST 0b11011001               /* 217 = 0xd9 */
 #define ESM_INFORMATION_RESPONSE 0b11011010              /* 218 = 0xda */
 #define ESM_STATUS 0b11101000                            /* 232 = 0xe8 */
+#define ESM_DATA_TRANSPORT 0b11101011                    /* 235 = 0xeb added by Yifei */
 
 //------------------------------------------------------------------------------
 // 9.9 OTHER INFORMATION ELEMENTS

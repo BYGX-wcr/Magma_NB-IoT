@@ -61,6 +61,7 @@ Description Defines EPS Session Management messages and functions used
 #include "lte/gateway/c/core/oai/tasks/nas/esm/msg/BearerResourceAllocationReject.h"
 #include "lte/gateway/c/core/oai/tasks/nas/esm/msg/BearerResourceModificationRequest.h"
 #include "lte/gateway/c/core/oai/tasks/nas/esm/msg/BearerResourceModificationReject.h"
+#include "lte/gateway/c/core/oai/tasks/nas/esm/msg/EsmDataTransport.h"
 #include "lte/gateway/c/core/oai/tasks/nas/esm/msg/EsmInformationRequest.h"
 #include "lte/gateway/c/core/oai/tasks/nas/esm/msg/EsmInformationResponse.h"
 #include "lte/gateway/c/core/oai/tasks/nas/esm/msg/EsmStatus.h"
@@ -108,6 +109,7 @@ typedef union {
   esm_information_request_msg esm_information_request;
   esm_information_response_msg esm_information_response;
   esm_status_msg esm_status;
+  esm_data_transport_msg esm_data_transport; // added by Yifei
 } ESM_msg;
 
 /****************************************************************************/

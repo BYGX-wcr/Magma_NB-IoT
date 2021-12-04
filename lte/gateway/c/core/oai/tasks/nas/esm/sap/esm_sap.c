@@ -719,6 +719,17 @@ static int esm_sap_recv(
             esm_msg.header.message_type, esm_cause, ue_id);
         break;
 
+      case ESM_DATA_TRANSPORT:
+        // Yifei - TODO: handle user data
+        OAILOG_STREAM_HEX(
+          OAILOG_LEVEL_DEBUG, LOG_NAS_EMM, "Incoming Control Plane User Data message: ", (esm_msg.esm_data_transport.userdata)->data, esm_msg.esm_data_transport.userdatalen);
+        OAILOG_DEBUG(
+            LOG_NAS_ESM,
+            "ESM-SAP   - ESM Message type = ESM_DATA_TRANSPORT(0x%x)"
+            "(ESM Cause = %d) for (ue_id = %u)\n",
+            esm_msg.header.message_type, esm_cause, ue_id);
+        break;
+
       default:
         OAILOG_WARNING(
             LOG_NAS_ESM,

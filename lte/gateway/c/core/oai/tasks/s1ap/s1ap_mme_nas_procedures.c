@@ -127,6 +127,11 @@ status_code_e s1ap_mme_handle_initial_ue_message(
       "New Initial UE message received with eNB UE S1AP ID: " ENB_UE_S1AP_ID_FMT
       " assoc-id :%d \n",
       enb_ue_s1ap_id, eNB_ref->sctp_assoc_id);
+  // Yifei: Remove duplicate ENB_UE_S1AP_ID
+  ue_description_t* ue = NULL;
+  hash_table_ts_t* state_ue_ht = get_s1ap_ue_state();
+  uint64_t comp_s1ap_id = (uint64_t) enb_ue_s1ap_id << 32 | eNB_ref->sctp_assoc_id;
+  hashtable_ts_remove(state_ue_ht, (const hash_key_t) comp_s1ap_id, (void**) &ue);
   ue_ref = s1ap_state_get_ue_enbid(eNB_ref->sctp_assoc_id, enb_ue_s1ap_id);
 
   if (ue_ref == NULL) {

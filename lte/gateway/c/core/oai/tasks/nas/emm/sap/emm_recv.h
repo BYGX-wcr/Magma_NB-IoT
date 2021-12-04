@@ -55,6 +55,7 @@ Description Defines functions executed at the EMMAS Service Access
 #include "lte/gateway/c/core/oai/tasks/nas/emm/msg/NASSecurityModeComplete.h"
 #include "lte/gateway/c/core/oai/tasks/nas/emm/msg/SecurityModeReject.h"
 #include "lte/gateway/c/core/oai/tasks/nas/emm/msg/UplinkNasTransport.h"
+#include "lte/gateway/c/core/oai/tasks/nas/esm/sap/esm_sap.h"
 #include "lte/gateway/c/core/oai/common/common_defs.h"
 #include "lte/gateway/c/core/oai/tasks/nas/api/network/nas_message.h"
 #include "lte/gateway/c/core/oai/lib/3gpp/3gpp_23.003.h"

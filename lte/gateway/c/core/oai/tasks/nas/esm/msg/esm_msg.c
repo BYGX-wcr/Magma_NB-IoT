@@ -225,6 +225,11 @@ int esm_msg_decode(ESM_msg* msg, uint8_t* buffer, uint32_t len) {
       decode_result = decode_esm_status(&msg->esm_status, buffer, len);
       break;
 
+    /* Added by Yifei */
+    case ESM_DATA_TRANSPORT:
+      decode_result = decode_esm_data_transport(&msg->esm_data_transport, buffer, len);
+      break;
+
     default:
       OAILOG_ERROR(
           LOG_NAS_ESM, "ESM-MSG   - Unexpected message type: 0x%x\n",

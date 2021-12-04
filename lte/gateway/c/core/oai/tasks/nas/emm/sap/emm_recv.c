@@ -871,6 +871,46 @@ status_code_e emm_recv_ext_service_request(
 }
 
 /****************************************************************************
+ ** Added by Yifei                                                         **
+ ** Name:        emm_recv_control_plane_service_request()                  **
+ **                                                                        **
+ ** Description: Processes Control Plane Service Request message           **
+ **                                                                        **
+ ** Inputs:      ue_id:          UE lower layer identifier                 **
+ **              msg:           The received EMM message                   **
+ **              emm_context:   EMM context                                **
+ **              Others:        None                                       **
+ **                                                                        **
+ ** Outputs:     emm_cause:     EMM cause code                             **
+ **              Return:        RETURNok, RETURNerror                      **
+ **              Others:        None                                       **
+ **                                                                        **
+ ***************************************************************************/
+status_code_e emm_recv_control_plane_service_request(
+    mme_ue_s1ap_id_t ue_id, const control_plane_service_request_msg* msg,
+    struct emm_context_s* emm_context, int* emm_cause,
+    const nas_message_decode_status_t* decode_status) {
+  int rc = RETURNok;
+
+  OAILOG_FUNC_IN(LOG_NAS_EMM);
+  OAILOG_INFO(
+      LOG_NAS_EMM,
+      "EMMAS-SAP - Received Control Plane Service Request message");
+
+  *emm_cause = EMM_CAUSE_SUCCESS;
+  
+  esm_sap_t esm_sap     = {0};
+  esm_sap.primitive     = ESM_UNITDATA_IND;
+  esm_sap.is_standalone = true;
+  esm_sap.ue_id         = ue_id;
+  esm_sap.ctx           = emm_context;
+  esm_sap.recv          = msg->esmmessagecontainer;
+  rc                    = esm_sap_send(&esm_sap);
+
+  OAILOG_FUNC_RETURN(LOG_NAS_EMM, rc);
+}
+
+/****************************************************************************
  **                                                                        **
  ** Name:    emm_recv_identity_response()                              **
  **                                                                        **

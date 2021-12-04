@@ -241,6 +241,12 @@ int emm_msg_decode(EMM_msg* msg, uint8_t* buffer, uint32_t len) {
           &msg->authentication_response, buffer, len);
       break;
 
+    /* Added by Yifei */
+    case CONTROL_PLANE_SERVICE_REQUEST:
+      decode_result = decode_control_plane_service_request(
+          &msg->control_plane_service_request, buffer, len);
+      break;
+
     default:
       OAILOG_ERROR(
           LOG_NAS_EMM, "EMM-MSG   - Unexpected message type: 0x%x\n",

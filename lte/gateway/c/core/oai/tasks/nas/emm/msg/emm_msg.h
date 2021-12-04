@@ -81,6 +81,7 @@ Description Defines EPS Mobility Management messages and functions used
 #include "lte/gateway/c/core/oai/tasks/nas/emm/msg/AuthenticationRequest.h"
 #include "lte/gateway/c/core/oai/tasks/nas/emm/msg/AuthenticationResponse.h"
 #include "lte/gateway/c/core/oai/tasks/nas/emm/msg/CsServiceNotification.h"
+#include "lte/gateway/c/core/oai/tasks/nas/emm/msg/ControlPlaneServiceRequest.h"
 #include "lte/gateway/c/core/oai/tasks/nas/emm/msg/DetachAccept.h"
 #include "lte/gateway/c/core/oai/tasks/nas/emm/msg/DetachRequest.h"
 #include "lte/gateway/c/core/oai/tasks/nas/emm/msg/DownlinkNasTransport.h"
@@ -146,6 +147,7 @@ typedef union {
   downlink_nas_transport_msg downlink_nas_transport;
   uplink_nas_transport_msg uplink_nas_transport;
   cs_service_notification_msg cs_service_notification;
+  control_plane_service_request_msg control_plane_service_request;
 } EMM_msg;
 
 /****************************************************************************/

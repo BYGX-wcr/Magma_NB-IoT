@@ -895,33 +895,45 @@ static int emm_as_establish_req(emm_as_establish_t* msg, int* emm_cause) {
           *msg->tai, emm_cause, &decode_status);
       break;
 
-    case SERVICE_REQUEST:
-      // Requirement MME24.301R10_4.4.4.3_1
-      increment_counter("service_request", 1, NO_LABELS);
+    // case SERVICE_REQUEST:
+    //   // Requirement MME24.301R10_4.4.4.3_1
+    //   increment_counter("service_request", 1, NO_LABELS);
+    //   OAILOG_INFO(
+    //       LOG_NAS_EMM,
+    //       "EMMAS-SAP - Message Type = SERVICE_REQUEST(0x%x) for (ue_id "
+    //       "= " MME_UE_S1AP_ID_FMT ")\n",
+    //       emm_msg->header.message_type, msg->ue_id);
+    //   if ((emm_ctx == NULL) ||
+    //       ((0 == decode_status.security_context_available) ||
+    //        (0 == decode_status.integrity_protected_message) ||
+    //        // Requirement MME24.301R10_4.4.4.3_2
+    //        ((1 == decode_status.security_context_available) &&
+    //         (0 == decode_status.mac_matched)))) {
+    //     *emm_cause = EMM_CAUSE_UE_IDENTITY_CANT_BE_DERIVED_BY_NW;
+    //     // Send Service Reject with cause "UE identity cannot be derived by the
+    //     // network" to trigger fresh attach
+    //     rc = emm_proc_service_reject(
+    //         msg->ue_id, EMM_CAUSE_UE_IDENTITY_CANT_BE_DERIVED_BY_NW);
+    //     increment_counter(
+    //         "service_request", 1, 2, "result", "failure", "cause",
+    //         "ue_context_not_available");
+    //     OAILOG_FUNC_RETURN(LOG_NAS_EMM, rc);
+    //   }
+    //   // Process Service request
+    //   rc = emm_recv_service_request(
+    //       msg->ue_id, &emm_msg->service_request, msg->is_initial, emm_cause,
+    //       &decode_status);
+    //   break;
+    //
+    // Yifei: Replace service request with control plane service request
+    case CONTROL_PLANE_SERVICE_REQUEST:
       OAILOG_INFO(
-          LOG_NAS_EMM,
-          "EMMAS-SAP - Message Type = SERVICE_REQUEST(0x%x) for (ue_id "
-          "= " MME_UE_S1AP_ID_FMT ")\n",
-          emm_msg->header.message_type, msg->ue_id);
-      if ((emm_ctx == NULL) ||
-          ((0 == decode_status.security_context_available) ||
-           (0 == decode_status.integrity_protected_message) ||
-           // Requirement MME24.301R10_4.4.4.3_2
-           ((1 == decode_status.security_context_available) &&
-            (0 == decode_status.mac_matched)))) {
-        *emm_cause = EMM_CAUSE_UE_IDENTITY_CANT_BE_DERIVED_BY_NW;
-        // Send Service Reject with cause "UE identity cannot be derived by the
-        // network" to trigger fresh attach
-        rc = emm_proc_service_reject(
-            msg->ue_id, EMM_CAUSE_UE_IDENTITY_CANT_BE_DERIVED_BY_NW);
-        increment_counter(
-            "service_request", 1, 2, "result", "failure", "cause",
-            "ue_context_not_available");
-        OAILOG_FUNC_RETURN(LOG_NAS_EMM, rc);
-      }
-      // Process Service request
-      rc = emm_recv_service_request(
-          msg->ue_id, &emm_msg->service_request, msg->is_initial, emm_cause,
+            LOG_NAS_EMM,
+            "EMMAS-SAP - Message Type = CONTROL_PLANE_SERVICE_REQUEST(0x%x) for "
+            "(ue_id = " MME_UE_S1AP_ID_FMT ")\n",
+            emm_msg->header.message_type, msg->ue_id);
+      rc = emm_recv_control_plane_service_request(
+          msg->ue_id, &emm_msg->control_plane_service_request, emm_ctx, emm_cause,
           &decode_status);
       break;
 
