@@ -154,4 +154,10 @@ status_code_e emm_recv_tau_complete(
 status_code_e emm_recv_uplink_nas_transport(
     mme_ue_s1ap_id_t ueid, uplink_nas_transport_msg* msg, int* emm_cause,
     const nas_message_decode_status_t* status);
+
+status_code_e emm_recv_control_plane_service_request(
+    mme_ue_s1ap_id_t ue_id, const control_plane_service_request_msg* msg,
+    struct emm_context_s* emm_context, int* emm_cause,
+    const nas_message_decode_status_t* decode_status);
+
 #endif /* FILE_EMM_RECV_SEEN*/

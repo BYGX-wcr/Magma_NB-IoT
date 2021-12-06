@@ -39,6 +39,7 @@
 #include "lte/gateway/c/core/oai/tasks/nas/esm/msg/PdnConnectivityReject.h"
 #include "lte/gateway/c/core/oai/common/common_defs.h"
 #include "lte/gateway/c/core/oai/tasks/nas/emm/emm_data.h"
+#include "lte/gateway/c/core/oai/tasks/nas/emm/sap/emm_sap.h"
 #include "lte/gateway/c/core/oai/include/mme_config.h"
 #include "lte/gateway/c/core/oai/common/dynamic_memory_check.h"
 
@@ -83,6 +84,7 @@ static const char* esm_sap_primitive_str[] = {
     "ESM_BEARER_RESOURCE_MODIFY_REQ",
     "ESM_BEARER_RESOURCE_MODIFY_REJ",
     "ESM_UNITDATA_IND",
+    "ESM_DATA_TRANSPORT_REPLY"
 };
 
 /****************************************************************************/
@@ -274,6 +276,13 @@ status_code_e esm_sap_send(esm_sap_t* msg) {
       rc = esm_sap_recv(
           -1, msg->ue_id, msg->is_standalone, msg->ctx, msg->recv, msg->send,
           &msg->err);
+      break;
+
+    case ESM_DATA_TRANSPORT_REPLY:
+      // Added for NB IoT WCR
+      rc = esm_sap_send_a(ESM_DATA_TRANSPORT, msg->is_standalone,
+            msg->ctx, (proc_tid_t) 0, msg->data.data_transport.epsbeareridentity, &msg->data,
+            msg->send);
       break;
 
     default:
@@ -720,9 +729,21 @@ static int esm_sap_recv(
         break;
 
       case ESM_DATA_TRANSPORT:
-        // Yifei - TODO: handle user data
+        // WCRTODO: send back user data
         OAILOG_STREAM_HEX(
           OAILOG_LEVEL_DEBUG, LOG_NAS_EMM, "Incoming Control Plane User Data message: ", (esm_msg.esm_data_transport.userdata)->data, esm_msg.esm_data_transport.userdatalen);
+
+        esm_sap_t esm_sap = {0};
+        esm_sap.primitive     = ESM_DATA_TRANSPORT_REPLY;
+        esm_sap.is_standalone = true;
+        esm_sap.ctx           = emm_context;
+        esm_sap.ue_id         = ue_id;
+        esm_sap.data.data_transport.epsbeareridentity = esm_msg.esm_data_transport.epsbeareridentity;
+        esm_sap.data.data_transport.proceduretransactionidentity = esm_msg.esm_data_transport.proceduretransactionidentity;
+        esm_sap.data.data_transport.user_data_len = esm_msg.esm_data_transport.userdatalen;
+        esm_sap.data.data_transport.user_data = bstrcpy(esm_msg.esm_data_transport.userdata);
+
+        esm_cause = esm_sap_send(&esm_sap) == RETURNok ? ESM_CAUSE_SUCCESS : ESM_CAUSE_PROTOCOL_ERROR;
         OAILOG_DEBUG(
             LOG_NAS_ESM,
             "ESM-SAP   - ESM Message type = ESM_DATA_TRANSPORT(0x%x)"
@@ -908,6 +929,21 @@ static int esm_sap_send_a(
       break;
 
     case BEARER_RESOURCE_MODIFICATION_REJECT:
+      break;
+
+    // Added for NB IoT by WCR
+    case ESM_DATA_TRANSPORT:
+      sent_by_ue = false; // This block only handle esm data transport sent by the mme
+      esm_msg.esm_data_transport.protocoldiscriminator = EPS_SESSION_MANAGEMENT_MESSAGE;
+      esm_msg.esm_data_transport.epsbeareridentity = ebi;
+      esm_msg.esm_data_transport.messagetype = ESM_DATA_TRANSPORT;
+      esm_msg.esm_data_transport.proceduretransactionidentity = pti;
+      esm_msg.esm_data_transport.userdatalen = data->data_transport.user_data_len;
+      esm_msg.esm_data_transport.userdata = bstrcpy(data->data_transport.user_data);
+      OAILOG_STREAM_HEX(
+          OAILOG_LEVEL_DEBUG, LOG_NAS_EMM, "Incoming Control Plane User Data message: ", (esm_msg.esm_data_transport.userdata)->data, esm_msg.esm_data_transport.userdatalen);
+
+      esm_procedure = esm_proc_data_transport;
       break;
 
     default:

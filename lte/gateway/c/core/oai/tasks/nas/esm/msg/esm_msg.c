@@ -403,6 +403,11 @@ int esm_msg_encode(ESM_msg* msg, uint8_t* buffer, uint32_t len) {
       encode_result = encode_esm_status(&msg->esm_status, buffer, len);
       break;
 
+    // Added for NB IoT by WCR
+    case ESM_DATA_TRANSPORT:
+      encode_result = encode_esm_data_transport(&msg->esm_data_transport, buffer, len);
+      break;
+
     default:
       OAILOG_ERROR(
           LOG_NAS_ESM, "ESM-MSG   - Unexpected message type: 0x%x\n",

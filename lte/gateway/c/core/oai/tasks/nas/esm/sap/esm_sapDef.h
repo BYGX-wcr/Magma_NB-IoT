@@ -73,6 +73,7 @@ typedef enum esm_primitive_s {
   ESM_BEARER_RESOURCE_MODIFY_REJ,
   /* ESM data indication ("raw" ESM message) */
   ESM_UNITDATA_IND,
+  ESM_DATA_TRANSPORT_REPLY,
   ESM_END
 } esm_primitive_t;
 
@@ -152,6 +153,15 @@ typedef struct esm_eps_dedicated_bearer_context_activate_s {
   fteid_t sgw_fteid;
 } esm_eps_dedicated_bearer_context_activate_t;
 
+/* Added for NB IoT by WCR*/
+typedef struct esm_data_transport_s {
+  eps_protocol_discriminator_t protocoldiscriminator : 4;
+  ebi_t epsbeareridentity : 4;
+  pti_t proceduretransactionidentity;
+  uint16_t user_data_len;
+  bstring user_data;
+} esm_data_transport_t;
+
 /*
  * ------------------------------
  * Structure of ESM-SAP primitive
@@ -163,6 +173,7 @@ typedef union {
   esm_eps_bearer_context_deactivate_t eps_bearer_context_deactivate;
   esm_eps_dedicated_bearer_context_activate_t
       eps_dedicated_bearer_context_activate;
+  esm_data_transport_t data_transport;
 } esm_sap_data_t;
 
 struct emm_context_s;
